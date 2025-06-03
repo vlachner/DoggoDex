@@ -1,9 +1,7 @@
 import type { Breed } from "../types";
 import axios from "axios";
 
-const API_KEY =
-  "live_f7iiOTuBsQXvfWGiRBSaIi2vKSudM2aCHRuwxGP4TdYFN9IHlMbZHrIbaxHmNxWV";
-
+const API_KEY = process.env.DOGGO_API_KEY;
 const BASE_URL = "https://api.thedogapi.com/v1";
 
 const api = axios.create({
