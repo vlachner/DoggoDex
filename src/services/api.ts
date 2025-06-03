@@ -1,0 +1,46 @@
+import type { Breed } from "../types";
+import axios from "axios";
+
+const API_KEY =
+  "live_f7iiOTuBsQXvfWGiRBSaIi2vKSudM2aCHRuwxGP4TdYFN9IHlMbZHrIbaxHmNxWV";
+
+const BASE_URL = "https://api.thedogapi.com/v1";
+
+const api = axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    "x-api-key": API_KEY,
+  },
+});
+
+export const fetchBreeds = async (page = 0, limit = 12) => {
+  const response = await api.get<Breed[]>("/breeds", {
+    params: {
+      page,
+      limit,
+    },
+  });
+  return response.data;
+};
+
+export const searchBreeds = async (query: string, limit = 12) => {
+  const response = await api.get<Breed[]>("/breeds/search", {
+    params: {
+      q: query,
+    },
+  });
+  // Search API does not support pagination, so we limit the results manually
+  return response.data.slice(0, limit);
+};
+
+export const fetchBreedById = async (id: number) => {
+  const response = await api.get<Breed>(`/breeds/${id}`);
+  return response.data;
+};
+
+export const fetchBreedImage = async (imageId: string) => {
+  const response = await api.get(`/images/${imageId}`);
+  return response.data;
+};
+
+export default api;
